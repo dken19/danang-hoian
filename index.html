@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Lịch trình du lịch Đà Nẵng – Hội An 4 ngày 3 đêm: biển Mỹ Khê, Sơn Trà, phố cổ Hội An, Cù Lao Chàm, Bà Nà Hills — kèm chi phí, ẩm thực và checklist chuẩn bị.">
+<meta name="theme-color" content="#F6EEDD" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#160F22" media="(prefers-color-scheme: dark)">
 <title>Đà Nẵng · Hội An — Hành trình 4 ngày 3 đêm</title>
 
 <style>
@@ -413,7 +421,51 @@ footer .divider{margin-bottom:18px}
   .reveal{opacity:1;transform:none}
   section.day,section.block{padding:18px 0}
 }
+
+/* ============ MOBILE ============ */
+@media(max-width:640px){
+  :root{--nav-h:54px}
+  nav#topnav{gap:8px;padding-inline:12px}
+  .brand{font-size:.95rem;gap:7px}
+  .navlinks{gap:2px}
+  .navlinks a{font-size:.8rem;padding:6px 10px}
+  .iconbtn{width:34px;height:34px;font-size:1rem}
+
+  #hero{padding:76px 18px 64px;min-height:100svh}
+  .hero-facts{gap:8px}
+  .hero-facts span{font-size:.78rem;padding:6px 12px}
+  .hero-cta .btn{padding:12px 20px;font-size:.9rem}
+
+  .section-head{margin-bottom:30px}
+  .chapter{border-radius:18px;margin-bottom:34px}
+  .chapter .csum{font-size:.96rem}
+
+  .card-body{padding:16px 16px 18px}
+  .card-body h3{font-size:1.18rem}
+  .scene{min-height:200px}
+
+  .panel,.todo-panel{padding:18px 16px}
+  .total-box .big{font-size:1.7rem}
+  .masonry{grid-template-columns:1fr}
+
+  .lb-scene .lb-emoji{font-size:2.6rem}
+  .lb-scene h3{font-size:1.3rem}
+  .lb-info{padding:16px 18px}
+
+  /* an toàn với vùng notch / home-indicator */
+  .floats{right:12px;bottom:calc(14px + env(safe-area-inset-bottom))}
+  .fab{width:44px;height:44px}
+}
+
+/* điện thoại rất nhỏ (≤ 360px) */
+@media(max-width:360px){
+  .brand small{display:none}
+  .hero-facts span{font-size:.74rem}
+  .food{padding:13px 13px}
+}
 </style>
+</head>
+<body>
 
 <!-- ================= PROGRESS + NAV ================= -->
 <div id="progress"></div>
@@ -1449,3 +1501,5 @@ footer .divider{margin-bottom:18px}
   if(window.__observeReveals) window.__observeReveals();
 })();
 </script>
+</body>
+</html>

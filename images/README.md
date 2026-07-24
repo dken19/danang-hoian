@@ -3,7 +3,7 @@
 Trang web tự chọn ảnh theo thứ tự ưu tiên cho **mỗi điểm**:
 
 1. **Ảnh của bạn** — file `images/<slug>.jpg` (nếu có) → luôn được ưu tiên.
-2. **Ảnh Wikimedia** — với các điểm nổi tiếng đã gắn sẵn.
+2. **Ảnh Wikimedia** — với các điểm đã gắn sẵn.
 3. **Gradient** — nếu cả hai trên đều không có.
 
 ## Cách thêm ảnh của bạn
@@ -23,23 +23,25 @@ Trang sẽ tự hiển thị ảnh của bạn thay cho ảnh mặc định (đ�
 | Điểm | Tên file | Ảnh sẵn |
 |---|---|:--:|
 | Biển Mỹ Khê | `bien-my-khe.jpg` | ✅ Wikimedia |
-| Sơn Trà Marina | `son-tra-marina.jpg` | gradient |
+| Sơn Trà Marina | `son-tra-marina.jpg` | ⬜ gradient — cần ảnh của bạn |
 | Chùa Linh Ứng Sơn Trà | `chua-linh-ung-son-tra.jpg` | ✅ Wikimedia |
-| Đỉnh Bàn Cờ | `dinh-ban-co.jpg` | gradient |
+| Đỉnh Bàn Cờ | `dinh-ban-co.jpg` | ✅ Wikimedia |
 | Cầu Rồng | `cau-rong.jpg` | ✅ Wikimedia |
-| Chợ đêm Sơn Trà | `cho-dem-son-tra.jpg` | gradient |
-| Rừng dừa Bảy Mẫu | `rung-dua-bay-mau.jpg` | gradient |
+| Chợ đêm Sơn Trà | `cho-dem-son-tra.jpg` | ✅ Wikimedia |
+| Rừng dừa Bảy Mẫu | `rung-dua-bay-mau.jpg` | ⬜ gradient — cần ảnh của bạn |
 | Cơm gà & Bánh mì Phượng | `com-ga-banh-mi-phuong.jpg` | ✅ Wikimedia |
 | Chùa Cầu & Hội quán | `chua-cau-hoi-quan.jpg` | ✅ Wikimedia |
-| Faifo Rooftop | `faifo-rooftop.jpg` | gradient |
+| Faifo Rooftop | `faifo-rooftop.jpg` | ✅ Wikimedia |
 | Đèn lồng & Hoa đăng sông Hoài | `den-long-hoa-dang-song-hoai.jpg` | ✅ Wikimedia |
 | Cano ra đảo | `cano-ra-dao.jpg` | ✅ Wikimedia |
-| Lặn ngắm san hô | `lan-ngam-san-ho.jpg` | gradient |
-| Bãi Chồng & Chợ Tân Hiệp | `bai-chong-cho-tan-hiep.jpg` | gradient |
-| Hải sản tươi | `hai-san-tuoi.jpg` | gradient |
+| Lặn ngắm san hô | `lan-ngam-san-ho.jpg` | ✅ Wikimedia |
+| Bãi Chồng & Chợ Tân Hiệp | `bai-chong-cho-tan-hiep.jpg` | ✅ Wikimedia |
+| Hải sản tươi | `hai-san-tuoi.jpg` | ✅ Wikimedia |
 | Cầu Vàng | `cau-vang.jpg` | ✅ Wikimedia |
-| Vườn hoa Le Jardin | `vuon-hoa-le-jardin.jpg` | gradient |
-| Hầm rượu Debay | `ham-ruou-debay.jpg` | gradient |
-| Làng Pháp & Fantasy Park | `lang-phap-fantasy-park.jpg` | gradient |
+| Vườn hoa Le Jardin | `vuon-hoa-le-jardin.jpg` | ⬜ gradient — cần ảnh của bạn |
+| Hầm rượu Debay | `ham-ruou-debay.jpg` | ⬜ gradient — cần ảnh của bạn |
+| Làng Pháp & Fantasy Park | `lang-phap-fantasy-park.jpg` | ✅ Wikimedia |
+
+**4 điểm còn gradient** (Sơn Trà Marina, Rừng dừa Bảy Mẫu, Vườn hoa Le Jardin, Hầm rượu Debay) chưa có ảnh phù hợp cho phép hotlink trên Wikimedia — bạn thả ảnh tự chụp vào là đẹp nhất.
 
 > Mẹo: muốn dùng ảnh đuôi `.png`/`.jpeg`? Cứ đổi tên thành `.jpg` là được (trình duyệt vẫn đọc theo nội dung).

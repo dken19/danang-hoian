@@ -125,6 +125,49 @@ nav#topnav{
 .brand small{display:none}
 @media(min-width:920px){.brand small{display:inline}}
 
+/* hamburger — chỉ hiện trên mobile */
+.menu-btn{display:none}
+.burger{position:relative;width:18px;height:13px;display:block}
+.burger i{position:absolute;left:0;width:100%;height:2px;border-radius:2px;background:currentColor;transition:transform .3s,opacity .2s,top .3s}
+.burger i:nth-child(1){top:0}
+.burger i:nth-child(2){top:5.5px}
+.burger i:nth-child(3){top:11px}
+body.drawer-open .burger i:nth-child(1){top:5.5px;transform:rotate(45deg)}
+body.drawer-open .burger i:nth-child(2){opacity:0}
+body.drawer-open .burger i:nth-child(3){top:5.5px;transform:rotate(-45deg)}
+body.drawer-open{overflow:hidden}
+
+/* ============ MOBILE DRAWER ============ */
+.drawer-bg{position:fixed;inset:0;z-index:75;background:rgba(10,6,2,.5);opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer-bg.show{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;left:0;z-index:80;height:100%;width:min(84vw,320px);
+  display:flex;flex-direction:column;
+  background:var(--bg-2);border-right:1px solid var(--line);box-shadow:0 0 60px -10px rgba(0,0,0,.5);
+  transform:translateX(-100%);visibility:hidden;
+  transition:transform .32s cubic-bezier(.2,.7,.2,1),visibility .32s;
+  padding-top:env(safe-area-inset-top);
+  overflow:hidden;
+}
+.drawer.open{transform:none;visibility:visible}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+.drawer-title{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-size:1.1rem;font-weight:600}
+.drawer-title .dot{width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd98a,var(--vermilion));box-shadow:0 0 10px var(--vermilion)}
+.drawer-links{display:flex;flex-direction:column;gap:4px;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.drawer-links .navlink{
+  display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--ink);
+  padding:11px 12px;border-radius:14px;border:1px solid transparent;transition:background .2s,border-color .2s;
+}
+.drawer-links .navlink:hover{background:var(--bg-3)}
+.drawer-links .navlink.active{background:color-mix(in srgb,var(--vermilion) 14%,transparent);border-color:color-mix(in srgb,var(--vermilion) 34%,transparent)}
+.drawer-links .dl-n{flex:0 0 auto;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;
+  font-family:var(--serif);font-weight:700;font-size:.95rem;color:#fff;background:linear-gradient(135deg,var(--ochre),var(--vermilion))}
+.drawer-links .dl-i{flex:0 0 auto;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;font-size:1.1rem;background:var(--bg-3);border:1px solid var(--line)}
+.drawer-links .dl-t{display:flex;flex-direction:column;line-height:1.25;font-weight:700;font-size:.98rem}
+.drawer-links .dl-t small{font-weight:500;font-size:.76rem;color:var(--ink-soft)}
+.drawer-links .navlink.active .dl-t{color:var(--vermilion)}
+.drawer-sep{margin:12px 6px 4px;font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+
 /* ============ HERO ============ */
 #hero{
   position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;
@@ -425,11 +468,11 @@ footer .divider{margin-bottom:18px}
 /* ============ MOBILE ============ */
 @media(max-width:640px){
   :root{--nav-h:54px}
-  nav#topnav{gap:8px;padding-inline:12px}
-  .brand{font-size:.95rem;gap:7px}
-  .navlinks{gap:2px}
-  .navlinks a{font-size:.8rem;padding:6px 10px}
-  .iconbtn{width:34px;height:34px;font-size:1rem}
+  nav#topnav{gap:10px;padding-inline:12px}
+  .menu-btn{display:grid}
+  .navlinks{display:none}
+  .brand{font-size:1rem;gap:8px;margin-right:auto}
+  .iconbtn{width:36px;height:36px;font-size:1rem}
 
   #hero{padding:76px 18px 64px;min-height:100svh}
   .hero-facts{gap:8px}
@@ -470,20 +513,44 @@ footer .divider{margin-bottom:18px}
 <!-- ================= PROGRESS + NAV ================= -->
 <div id="progress"></div>
 <nav id="topnav">
+  <button class="iconbtn menu-btn" id="menuBtn" aria-label="Mở menu chọn ngày" aria-expanded="false" aria-controls="drawer">
+    <span class="burger"><i></i><i></i><i></i></span>
+  </button>
   <a class="brand" href="#hero" aria-label="Về đầu trang"><span class="dot"></span>Đà Nẵng · Hội An <small>4N3Đ</small></a>
   <div class="navlinks" id="navlinks">
-    <a href="#ngay-1">Ngày 1</a>
-    <a href="#ngay-2">Ngày 2</a>
-    <a href="#ngay-3">Ngày 3</a>
-    <a href="#ngay-4">Ngày 4</a>
-    <a href="#am-thuc">Ẩm thực</a>
-    <a href="#cafe">Cafe</a>
-    <a href="#chi-phi">Chi phí</a>
-    <a href="#chuan-bi">Chuẩn bị</a>
-    <a href="#faq">FAQ</a>
+    <a class="navlink" href="#ngay-1">Ngày 1</a>
+    <a class="navlink" href="#ngay-2">Ngày 2</a>
+    <a class="navlink" href="#ngay-3">Ngày 3</a>
+    <a class="navlink" href="#ngay-4">Ngày 4</a>
+    <a class="navlink" href="#am-thuc">Ẩm thực</a>
+    <a class="navlink" href="#cafe">Cafe</a>
+    <a class="navlink" href="#chi-phi">Chi phí</a>
+    <a class="navlink" href="#chuan-bi">Chuẩn bị</a>
+    <a class="navlink" href="#faq">FAQ</a>
   </div>
   <button class="iconbtn" id="themeBtn" aria-label="Đổi giao diện sáng/tối" title="Sáng / Tối">☾</button>
 </nav>
+
+<!-- ================= MOBILE DRAWER ================= -->
+<div class="drawer-bg" id="drawerBg" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Menu chọn ngày" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title"><span class="dot"></span>Chọn ngày &amp; mục</span>
+    <button class="iconbtn" id="drawerClose" aria-label="Đóng menu">✕</button>
+  </div>
+  <nav class="drawer-links">
+    <a class="navlink" href="#ngay-1"><span class="dl-n">01</span><span class="dl-t">Ngày 1<small>Biển – Núi – Cầu Rồng</small></span></a>
+    <a class="navlink" href="#ngay-2"><span class="dl-n">02</span><span class="dl-t">Ngày 2<small>Rừng dừa &amp; Phố cổ đèn lồng</small></span></a>
+    <a class="navlink" href="#ngay-3"><span class="dl-n">03</span><span class="dl-t">Ngày 3<small>Đảo xanh &amp; San hô</small></span></a>
+    <a class="navlink" href="#ngay-4"><span class="dl-n">04</span><span class="dl-t">Ngày 4<small>Cầu Vàng &amp; Làng Pháp trên mây</small></span></a>
+    <span class="drawer-sep">Khám phá thêm</span>
+    <a class="navlink" href="#am-thuc"><span class="dl-i">🍜</span><span class="dl-t">Ẩm thực<small>Top 20 quán ăn</small></span></a>
+    <a class="navlink" href="#cafe"><span class="dl-i">☕</span><span class="dl-t">Cafe<small>Top cafe check-in</small></span></a>
+    <a class="navlink" href="#chi-phi"><span class="dl-i">💸</span><span class="dl-t">Chi phí<small>Dự kiến / người</small></span></a>
+    <a class="navlink" href="#chuan-bi"><span class="dl-i">🎒</span><span class="dl-t">Chuẩn bị<small>Thời tiết &amp; checklist</small></span></a>
+    <a class="navlink" href="#faq"><span class="dl-i">❓</span><span class="dl-t">FAQ<small>Câu hỏi thường gặp</small></span></a>
+  </nav>
+</aside>
 
 <!-- ================= HERO ================= -->
 <header id="hero">
@@ -1247,15 +1314,16 @@ footer .divider{margin-bottom:18px}
   }
 
   /* ---------- NAV ACTIVE ---------- */
-  var navA = Array.prototype.slice.call(document.querySelectorAll(".navlinks a"));
-  var secs = navA.map(function(a){ return document.querySelector(a.getAttribute("href")); });
+  var navA = Array.prototype.slice.call(document.querySelectorAll(".navlink"));
+  var barLinks = Array.prototype.slice.call(document.querySelectorAll("#navlinks .navlink"));
+  var secs = barLinks.map(function(a){ return document.querySelector(a.getAttribute("href")); });
   if("IntersectionObserver" in window){
     var no = new IntersectionObserver(function(es){
       es.forEach(function(e){
         if(e.isIntersecting){
           var id = "#"+e.target.id;
           navA.forEach(function(a){ a.classList.toggle("active", a.getAttribute("href")===id); });
-          var act = document.querySelector(".navlinks a.active");
+          var act = document.querySelector("#navlinks .navlink.active");
           if(act){
             var nl = document.getElementById("navlinks");
             nl.scrollLeft = Math.max(0, act.offsetLeft - (nl.clientWidth - act.clientWidth)/2);
@@ -1265,6 +1333,35 @@ footer .divider{margin-bottom:18px}
     }, {rootMargin:"-45% 0px -50% 0px"});
     secs.forEach(function(s){ if(s) no.observe(s); });
   }
+
+  /* ---------- MOBILE DRAWER ---------- */
+  (function(){
+    var drawer = document.getElementById("drawer");
+    var drawerBg = document.getElementById("drawerBg");
+    var menuBtn = document.getElementById("menuBtn");
+    var drawerClose = document.getElementById("drawerClose");
+    if(!drawer || !menuBtn) return;
+    function setDrawer(open){
+      if(open){ drawerBg.hidden = false; }
+      requestAnimationFrame(function(){
+        document.body.classList.toggle("drawer-open", open);
+        drawer.classList.toggle("open", open);
+        drawerBg.classList.toggle("show", open);
+        menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        drawer.setAttribute("aria-hidden", open ? "false" : "true");
+      });
+      if(open){
+        drawerClose.focus();
+      } else {
+        setTimeout(function(){ if(!drawer.classList.contains("open")) drawerBg.hidden = true; }, 340);
+      }
+    }
+    menuBtn.addEventListener("click", function(){ setDrawer(!drawer.classList.contains("open")); });
+    drawerClose.addEventListener("click", function(){ setDrawer(false); menuBtn.focus(); });
+    drawerBg.addEventListener("click", function(){ setDrawer(false); });
+    drawer.querySelectorAll(".navlink").forEach(function(a){ a.addEventListener("click", function(){ setDrawer(false); }); });
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape" && drawer.classList.contains("open")){ setDrawer(false); menuBtn.focus(); } });
+  })();
 
   /* ---------- BACK TO TOP + PRINT ---------- */
   document.getElementById("toTop").addEventListener("click", function(){ window.scrollTo(0,0); });
@@ -1307,7 +1404,14 @@ footer .divider{margin-bottom:18px}
     "Chùa Cầu & Hội quán":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2024_H%E1%BB%99i_An_-_Japanese_Covered_Bridge_%28Ch%C3%B9a_C%E1%BA%A7u%29_after_renovation_-_img_11.jpg/1280px-2024_H%E1%BB%99i_An_-_Japanese_Covered_Bridge_%28Ch%C3%B9a_C%E1%BA%A7u%29_after_renovation_-_img_11.jpg",
     "Đèn lồng & Hoa đăng sông Hoài":"https://upload.wikimedia.org/wikipedia/commons/f/f3/PhoCoHoiAn.jpg",
     "Cano ra đảo":"https://upload.wikimedia.org/wikipedia/commons/b/b5/ChamIslands1.jpg",
-    "Cầu Vàng":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Golden_Bridge_at_Ba_Na_Hills_20250718.jpg/1280px-Golden_Bridge_at_Ba_Na_Hills_20250718.jpg"
+    "Cầu Vàng":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Golden_Bridge_at_Ba_Na_Hills_20250718.jpg/1280px-Golden_Bridge_at_Ba_Na_Hills_20250718.jpg",
+    "Đỉnh Bàn Cờ":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Da_Nang_and_the_Son_Tra_Peninsula.jpg/1280px-Da_Nang_and_the_Son_Tra_Peninsula.jpg",
+    "Chợ đêm Sơn Trà":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Han_River_Bridge_in_Vietnam_Night_View.jpg/1280px-Han_River_Bridge_in_Vietnam_Night_View.jpg",
+    "Faifo Rooftop":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Hoi_An_Full_Moon_Festival.jpg/1280px-Hoi_An_Full_Moon_Festival.jpg",
+    "Lặn ngắm san hô":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Reef_fish_at_Midway_Atoll_%2852410730831%29.jpg/1280px-Reef_fish_at_Midway_Atoll_%2852410730831%29.jpg",
+    "Bãi Chồng & Chợ Tân Hiệp":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/A_seaside_shot_in_C%C3%B9_Lao_Ch%C3%A0m%2C_Qu%E1%BA%A3ng_Nam_province%2C_taken_in_July_2024.jpg/1280px-A_seaside_shot_in_C%C3%B9_Lao_Ch%C3%A0m%2C_Qu%E1%BA%A3ng_Nam_province%2C_taken_in_July_2024.jpg",
+    "Hải sản tươi":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Seafood_Dinner_Spread_%2850653591692%29.jpg/1280px-Seafood_Dinner_Spread_%2850653591692%29.jpg",
+    "Làng Pháp & Fantasy Park":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Golden_Bridge_Ba_Na_Hills_sea_of_clouds_morning_castle_cable_car.jpg/1280px-Golden_Bridge_Ba_Na_Hills_sea_of_clouds_morning_castle_cable_car.jpg"
   };
   function slugify(s){
     s = String(s||"").replace(/đ/g,"d").replace(/Đ/g,"D");
@@ -1365,10 +1469,12 @@ footer .divider{margin-bottom:18px}
   var fg = document.getElementById("foodGrid");
   foods.forEach(function(f,i){
     var el=document.createElement("div"); el.className="food reveal";
+    var q=encodeURIComponent((f.n+" "+f.c).replace(/&amp;/g," ").replace(/\s+/g," ").trim());
     el.innerHTML='<span class="rank">'+(i+1<10?"0":"")+(i+1)+'</span>'+
       '<h4>'+f.n+'</h4>'+
       '<div class="meta">'+f.d+'</div>'+
-      '<div class="foot"><span class="tag">'+f.t+' · '+f.c+'</span><span class="pr">'+f.p+'</span></div>';
+      '<div class="foot"><span class="tag">'+f.t+' · '+f.c+'</span><span class="pr">'+f.p+'</span></div>'+
+      '<a class="chip map" style="margin-top:11px" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">📍 Bản đồ</a>';
     fg.appendChild(el);
   });
 
@@ -1392,10 +1498,12 @@ footer .divider{margin-bottom:18px}
   cafes.forEach(function(f,i){
     var col=cafeColors[i%cafeColors.length];
     var el=document.createElement("div"); el.className="food reveal";
+    var q=encodeURIComponent((f.n+" "+f.c).replace(/&amp;/g," ").replace(/\s+/g," ").trim());
     el.innerHTML='<div style="height:6px;border-radius:99px;background:linear-gradient(90deg,'+col[0]+','+col[1]+');margin-bottom:10px"></div>'+
       '<h4>☕ '+f.n+'</h4>'+
       '<div class="meta">'+f.d+'</div>'+
-      '<div class="foot"><span class="tag">'+f.t+'</span><span class="pr">'+f.c+'</span></div>';
+      '<div class="foot"><span class="tag">'+f.t+'</span><span class="pr">'+f.c+'</span></div>'+
+      '<a class="chip map" style="margin-top:11px" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">📍 Bản đồ</a>';
     cg.appendChild(el);
   });
 

@@ -92,7 +92,7 @@ nav#topnav{
   position:sticky;top:0;z-index:60;height:var(--nav-h);
   display:flex;align-items:center;gap:14px;
   padding-inline:clamp(14px,4vw,34px);
-  background:var(--glass);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);
+  background:color-mix(in srgb,var(--bg) 90%,transparent);
   border-bottom:1px solid var(--line);
 }
 .brand{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-size:1.06rem;font-weight:600;white-space:nowrap;flex:0 0 auto}
@@ -164,7 +164,7 @@ nav#topnav{
 .hero-sub{font-size:clamp(1rem,2.1vw,1.35rem);max-width:36ch;margin:0 auto;color:#fff6e6;font-weight:500;line-height:1.5}
 .hero-facts{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px}
 .hero-facts span{
-  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
   padding:7px 15px;border-radius:999px;font-size:.85rem;font-weight:600;color:#fff;
 }
 .hero-cta{margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
@@ -219,7 +219,7 @@ section.day, section.block{padding:clamp(58px,8vw,104px) 0;position:relative}
 /* place card */
 .card{
   background:var(--glass);border:1px solid var(--glass-brd);border-radius:20px;overflow:hidden;
-  box-shadow:var(--shadow-sm);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);
+  box-shadow:var(--shadow-sm);
   transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;
 }
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
@@ -236,7 +236,7 @@ section.day, section.block{padding:clamp(58px,8vw,104px) 0;position:relative}
 .scene::before{content:"";position:absolute;inset:0;z-index:-1;
   background:radial-gradient(80% 60% at 70% 18%,rgba(255,255,255,.35),transparent 60%),linear-gradient(180deg,transparent 40%,var(--scene-veil))}
 .scene .ico{position:absolute;top:14px;left:16px;font-size:2.1rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
-.scene .zoom{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.34);backdrop-filter:blur(4px);
+.scene .zoom{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.42);
   border-radius:999px;width:30px;height:30px;display:grid;place-items:center;font-size:.9rem;border:1px solid rgba(255,255,255,.4)}
 .scene .cap{font-size:.78rem;font-weight:700;letter-spacing:.03em;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .scene .badge{position:absolute;bottom:14px;right:14px;background:var(--vermilion);color:#fff;font-size:.64rem;font-weight:800;
@@ -1164,16 +1164,19 @@ footer .divider{margin-bottom:18px}
 
   /* ---------- PROGRESS BAR ---------- */
   var prog = document.getElementById("progress");
-  function onScroll(){
+  var floatsEl = document.getElementById("floats");
+  var progTicking = false;
+  function updateScrollUI(){
+    progTicking = false;
     var h = document.documentElement;
+    var st = h.scrollTop || document.body.scrollTop;
     var max = h.scrollHeight - h.clientHeight;
-    var p = max>0 ? (h.scrollTop||document.body.scrollTop)/max : 0;
-    prog.style.width = (p*100)+"%";
-    var floats = document.getElementById("floats");
-    if((h.scrollTop||document.body.scrollTop) > 500) floats.classList.add("show"); else floats.classList.remove("show");
+    prog.style.width = (max>0 ? (st/max*100) : 0)+"%";
+    if(st > 500) floatsEl.classList.add("show"); else floatsEl.classList.remove("show");
   }
+  function onScroll(){ if(!progTicking){ progTicking = true; requestAnimationFrame(updateScrollUI); } }
   window.addEventListener("scroll", onScroll, {passive:true});
-  onScroll();
+  updateScrollUI();
 
   /* ---------- REVEAL ---------- */
   if("IntersectionObserver" in window && !reduce){
@@ -1320,15 +1323,17 @@ footer .divider{margin-bottom:18px}
   });
   document.getElementById("budgetTotal").textContent = vnd(total);
   // animate bars when visible
-  var barsShown=false;
-  function animateBars(){
+  var barsShown=false, barsTicking=false;
+  function checkBars(){
+    barsTicking=false;
     if(barsShown) return; var panel=bb.getBoundingClientRect();
     if(panel.top < window.innerHeight*0.9){
       barsShown=true;
       bb.querySelectorAll(".bar-fill").forEach(function(f){ f.style.width=f.getAttribute("data-w")+"%"; });
     }
   }
-  window.addEventListener("scroll", animateBars, {passive:true}); animateBars();
+  function animateBars(){ if(!barsShown && !barsTicking){ barsTicking=true; requestAnimationFrame(checkBars); } }
+  window.addEventListener("scroll", animateBars, {passive:true}); checkBars();
 
   /* ---------- DATA: WEATHER ---------- */
   var months=[

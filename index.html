@@ -506,6 +506,13 @@ footer .divider{margin-bottom:18px}
   .hero-facts span{font-size:.74rem}
   .food{padding:13px 13px}
 }
+/* ============ MẸO HAY / TIPS ============ */
+.tricks{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.trick{background:var(--bg-2);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm);display:flex;gap:13px;align-items:flex-start;transition:transform .3s,box-shadow .3s}
+.trick:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.trick .ti{flex:0 0 auto;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.3rem;background:color-mix(in srgb,var(--ochre) 16%,transparent);border:1px solid color-mix(in srgb,var(--ochre) 30%,transparent)}
+.trick h4{font-family:var(--serif);font-size:1.04rem;margin-bottom:3px;line-height:1.2}
+.trick p{font-size:.87rem;color:var(--ink-soft);line-height:1.5}
 </style>
 </head>
 <body>
@@ -526,6 +533,7 @@ footer .divider{margin-bottom:18px}
     <a class="navlink" href="#cafe">Cafe</a>
     <a class="navlink" href="#chi-phi">Chi phí</a>
     <a class="navlink" href="#chuan-bi">Chuẩn bị</a>
+    <a class="navlink" href="#meo">Mẹo hay</a>
     <a class="navlink" href="#faq">FAQ</a>
   </div>
   <button class="iconbtn" id="themeBtn" aria-label="Đổi giao diện sáng/tối" title="Sáng / Tối">☾</button>
@@ -548,6 +556,7 @@ footer .divider{margin-bottom:18px}
     <a class="navlink" href="#cafe"><span class="dl-i">☕</span><span class="dl-t">Cafe<small>Top cafe check-in</small></span></a>
     <a class="navlink" href="#chi-phi"><span class="dl-i">💸</span><span class="dl-t">Chi phí<small>Dự kiến / người</small></span></a>
     <a class="navlink" href="#chuan-bi"><span class="dl-i">🎒</span><span class="dl-t">Chuẩn bị<small>Thời tiết &amp; checklist</small></span></a>
+    <a class="navlink" href="#meo"><span class="dl-i">💡</span><span class="dl-t">Mẹo hay<small>Kinh nghiệm thực chiến</small></span></a>
     <a class="navlink" href="#faq"><span class="dl-i">❓</span><span class="dl-t">FAQ<small>Câu hỏi thường gặp</small></span></a>
   </nav>
 </aside>
@@ -1189,6 +1198,30 @@ footer .divider{margin-bottom:18px}
       </div>
       <ul class="checklist" id="packList"></ul>
       <button class="reset-link" id="packReset" style="margin-top:12px">Đặt lại danh sách</button>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider" aria-hidden="true"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div></div>
+
+<!-- ================= MẸO HAY / TIPS & TRICKS ================= -->
+<section class="block" id="meo">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Mẹo hay · Kinh nghiệm thực chiến</div>
+      <h2>Tips &amp; tricks bỏ túi</h2>
+      <p>9 mẹo rút từ các bài review &amp; blog kinh nghiệm thật (không phải quảng cáo tour) để đi thông minh, tránh bẫy và chụp ảnh đẹp.</p>
+    </div>
+    <div class="tricks">
+      <div class="trick reveal"><span class="ti">⏰</span><div><h4>Né giờ xe đoàn</h4><p>Tới Cầu Vàng, phố cổ, Chùa Cầu sớm trước 8h hoặc chiều muộn khi đoàn khách đã về — vừa vắng vừa dễ chụp.</p></div></div>
+      <div class="trick reveal"><span class="ti">🎫</span><div><h4>Đặt vé chính chủ</h4><p>Mua vé Bà Nà ở Sun World chính thức. Cảnh giác fanpage/Instagram bán combo rẻ bất thường; tuyệt đối không cọc vào tài khoản cá nhân.</p></div></div>
+      <div class="trick reveal"><span class="ti">🚕</span><div><h4>Grab / Xanh SM thay taxi dù</h4><p>Ở sân bay &amp; bến xe, đặt app để biết giá trước. Cảnh giác "tài xế Grab giả" chào mời và đồng hồ taxi bị chỉnh.</p></div></div>
+      <div class="trick reveal"><span class="ti">💬</span><div><h4>Hỏi giá trước khi mua</h4><p>Chợ đêm, hàng rong, hải sản tính theo cân — hỏi giá trước, "thuận mua vừa bán". Hải sản chốt giá/kg trước khi chế biến.</p></div></div>
+      <div class="trick reveal"><span class="ti">🥥</span><div><h4>Rừng dừa: chốt tiền "bo" trước</h4><p>Đặt thúng trực tiếp, thỏa thuận giá + tiền bo màn xoay thúng TRƯỚC khi xuống, tránh bị hét thêm giữa chừng.</p></div></div>
+      <div class="trick reveal"><span class="ti">👔</span><div><h4>May đo Hội An khôn ngoan</h4><p>Chọn tiệm có review tốt, đừng ham giá "mồi" vải kém. Đặt sớm để còn thời gian sửa — đừng may sát ngày về.</p></div></div>
+      <div class="trick reveal"><span class="ti">🌕</span><div><h4>Canh đêm rằm (14 âm lịch)</h4><p>Phố cổ tắt hết đèn điện, chỉ còn hàng nghìn đèn lồng lụa — khung cảnh Hội An đẹp nhất trong tháng.</p></div></div>
+      <div class="trick reveal"><span class="ti">🎋</span><div><h4>Phố cổ dạo miễn phí</h4><p>Đi bộ, ăn uống, ngắm phố không mất phí; vé 120k chỉ cần khi vào 5 điểm di tích (Chùa Cầu, nhà cổ, hội quán).</p></div></div>
+      <div class="trick reveal"><span class="ti">🌃</span><div><h4>Bà Nà "combo đêm"</h4><p>Ngại đông thì lên sau 10h sáng hoặc chơi Bà Nà về đêm: vắng khách hơn, Làng Pháp lên đèn lung linh.</p></div></div>
     </div>
   </div>
 </section>

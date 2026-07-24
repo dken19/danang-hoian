@@ -241,6 +241,9 @@ section.day, section.block{padding:clamp(58px,8vw,104px) 0;position:relative}
 .scene .cap{font-size:.78rem;font-weight:700;letter-spacing:.03em;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .scene .badge{position:absolute;bottom:14px;right:14px;background:var(--vermilion);color:#fff;font-size:.64rem;font-weight:800;
   letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.scene .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2;display:block}
+.scene.has-photo .ico{display:none}
+.scene.has-photo::before{background:radial-gradient(70% 60% at 72% 16%,rgba(255,255,255,.16),transparent 58%),linear-gradient(180deg,rgba(0,0,0,.06) 28%,var(--scene-veil))}
 
 .card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:12px}
 .card-body h3{font-size:1.28rem;letter-spacing:-.01em}
@@ -377,7 +380,7 @@ footer .divider{margin-bottom:18px}
 .lightbox.open{display:flex;opacity:1}
 .lb-inner{width:min(760px,94vw);border-radius:20px;overflow:hidden;box-shadow:0 40px 90px -20px rgba(0,0,0,.7);transform:scale(.96);transition:transform .3s}
 .lightbox.open .lb-inner{transform:none}
-.lb-scene{min-height:min(56vh,440px);background:linear-gradient(150deg,var(--g1,#caa),var(--g2,#644));position:relative;display:flex;align-items:flex-end;padding:22px}
+.lb-scene{min-height:min(56vh,440px);background:linear-gradient(150deg,var(--g1,#caa),var(--g2,#644));background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end;padding:22px}
 .lb-scene::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 70% 20%,rgba(255,255,255,.32),transparent 60%),linear-gradient(180deg,transparent 45%,rgba(0,0,0,.5))}
 .lb-scene .lb-emoji{position:absolute;top:22px;left:24px;font-size:3.4rem;filter:drop-shadow(0 3px 8px rgba(0,0,0,.5))}
 .lb-scene h3{position:relative;color:#fff;font-size:1.6rem;text-shadow:0 2px 12px rgba(0,0,0,.6)}
@@ -1111,7 +1114,7 @@ footer .divider{margin-bottom:18px}
     <div class="lb-scene" id="lbScene"><span class="lb-emoji" id="lbEmoji">🏮</span><h3 id="lbTitle">Điểm đến</h3></div>
     <div class="lb-info">
       <div class="ci" id="lbCaption"></div>
-      <div class="ci" style="max-width:32ch"><span id="lbAngle"></span><br><span class="lb-note">Khung ảnh minh hoạ — bạn có thể thay bằng ảnh thật của mình.</span></div>
+      <div class="ci" style="max-width:32ch"><span id="lbAngle"></span><br><span class="lb-note" id="lbNote">Khung ảnh minh hoạ — bạn có thể thay bằng ảnh thật của mình.</span></div>
     </div>
   </div>
 </div>
@@ -1225,6 +1228,13 @@ footer .divider{margin-bottom:18px}
     document.getElementById("lbCaption").innerHTML = "<b>"+(sc.getAttribute("data-title")||"")+".</b> "+(sc.getAttribute("data-caption")||"");
     var ang = sc.getAttribute("data-angle");
     document.getElementById("lbAngle").innerHTML = ang ? ("📸 <b>Góc chụp:</b> "+ang) : "";
+    var pimg = sc.querySelector("img.ph");
+    var photo = (pimg && sc.classList.contains("has-photo")) ? (pimg.currentSrc||pimg.src) : "";
+    lbScene.style.backgroundImage = photo ? ("url('"+photo+"')") : "";
+    document.getElementById("lbEmoji").style.display = photo ? "none" : "";
+    document.getElementById("lbNote").textContent = photo
+      ? "Ảnh minh hoạ từ Wikimedia Commons — thay bằng ảnh của bạn trong thư mục images/."
+      : "Khung minh hoạ theo mood — thêm ảnh vào images/ để hiện ảnh thật.";
     lb.classList.add("open");
     document.body.style.overflow="hidden";
   }
@@ -1233,7 +1243,40 @@ footer .divider{margin-bottom:18px}
     var sc = e.target.closest && e.target.closest(".scene");
     if(sc){ openLB(sc); }
   });
-  document.querySelectorAll(".scene").forEach(function(s){ s.setAttribute("tabindex","0"); s.setAttribute("role","button"); s.setAttribute("aria-label","Xem ảnh "+(s.getAttribute("data-title")||"")); });
+  /* ---------- REAL PHOTOS: local images/<slug>.jpg → Wikimedia → gradient ---------- */
+  var IMAGES = {
+    "Biển Mỹ Khê":"https://upload.wikimedia.org/wikipedia/commons/2/22/Bai_bien_My_Khe.jpg",
+    "Chùa Linh Ứng Sơn Trà":"https://upload.wikimedia.org/wikipedia/commons/9/91/Linh_Ung_Pagoda.jpg",
+    "Cầu Rồng":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/C%E1%BA%A7u_R%E1%BB%93ng.jpg/1280px-C%E1%BA%A7u_R%E1%BB%93ng.jpg",
+    "Cơm gà & Bánh mì Phượng":"https://upload.wikimedia.org/wikipedia/commons/0/0c/B%C3%A1nh_m%C3%AC_th%E1%BB%8Bt_n%C6%B0%E1%BB%9Bng.png",
+    "Chùa Cầu & Hội quán":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2024_H%E1%BB%99i_An_-_Japanese_Covered_Bridge_%28Ch%C3%B9a_C%E1%BA%A7u%29_after_renovation_-_img_11.jpg/1280px-2024_H%E1%BB%99i_An_-_Japanese_Covered_Bridge_%28Ch%C3%B9a_C%E1%BA%A7u%29_after_renovation_-_img_11.jpg",
+    "Đèn lồng & Hoa đăng sông Hoài":"https://upload.wikimedia.org/wikipedia/commons/f/f3/PhoCoHoiAn.jpg",
+    "Cano ra đảo":"https://upload.wikimedia.org/wikipedia/commons/b/b5/ChamIslands1.jpg",
+    "Cầu Vàng":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Golden_Bridge_at_Ba_Na_Hills_20250718.jpg/1280px-Golden_Bridge_at_Ba_Na_Hills_20250718.jpg"
+  };
+  function slugify(s){
+    s = String(s||"").replace(/đ/g,"d").replace(/Đ/g,"D");
+    if(s.normalize) s = s.normalize("NFD").replace(/[̀-ͯ]/g,"");
+    return s.toLowerCase().replace(/&/g," ").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+  }
+  document.querySelectorAll(".scene").forEach(function(s){
+    s.setAttribute("tabindex","0"); s.setAttribute("role","button");
+    var title = s.getAttribute("data-title")||"";
+    s.setAttribute("aria-label","Xem ảnh "+title);
+    var slug = slugify(title); s.setAttribute("data-slug", slug);
+    var img = document.createElement("img");
+    img.className = "ph"; img.alt = title;
+    img.setAttribute("loading","lazy"); img.setAttribute("decoding","async");
+    img.setAttribute("data-web", IMAGES[title] || "");
+    img.addEventListener("load", function(){ s.classList.add("has-photo"); });
+    img.addEventListener("error", function(){
+      var w = this.getAttribute("data-web");
+      if(w){ this.setAttribute("data-web",""); this.src = w; }
+      else { s.classList.remove("has-photo"); this.remove(); }
+    });
+    img.src = "images/" + slug + ".jpg";
+    s.insertBefore(img, s.firstChild);
+  });
   document.addEventListener("keydown", function(e){
     if(e.key==="Escape") closeLB();
     if((e.key==="Enter"||e.key===" ") && document.activeElement && document.activeElement.classList.contains("scene")){ e.preventDefault(); openLB(document.activeElement); }
